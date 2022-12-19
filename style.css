@@ -23,6 +23,10 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     margin-bottom: 20px;
     font-size: 20px;
 }
+.time.shake {
+    animation: shake 1s ease-out 2;
+}
+
 .stage {
     display: flex;
     flex-wrap: wrap;
@@ -76,4 +80,12 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     50% { transform: rotateY(-180deg); }
     80% { transform: rotateY(-180deg); }
     100% { transform: rotateY(0deg); }
+}
+
+@keyframes shake {
+    0% {transform: translate(0, 0) rotate(0)}
+    20% {transform: translate(-10px, -5px) rotate(-5deg)}
+    40% {transform: translate(0, 0) rotate(0)}
+    60% {transform: translate(10px, -5px) rotate(5deg)}
+    100% {transform: translate(0, 0) rotate(0)}
 }
