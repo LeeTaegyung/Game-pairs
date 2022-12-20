@@ -26,8 +26,8 @@
     ];
     const roundInfo = [
         {round: '1R', length: 20, col: 5, row: 4, time: 120},
-        {round: '2R', length: 30, col: 6, row: 5, time: 180},
-        {round: '3R', length: 40, col: 8, row: 5, time: 300},
+        {round: '2R', length: 30, col: 6, row: 5, time: 240},
+        {round: '3R', length: 40, col: 8, row: 5, time: 360},
     ]
     const aniDelay = 0.3;
     const aniDuration = 1.7;
@@ -38,15 +38,7 @@
     let isReverse = false;
     let isStart = false;
     let timeVal;
-    
-    // 1R 20 5x4 2분 10
-    // 2R 30 6x5 3분 15
-    // 3R 40 8x5 5분 20
-    // 시간제한
-    // game start -> 타이머 시작 -> 1R(카드개수 입력) -> shuffle() -> create() -> card click(돌리는동안 다른카드 클릭 막아야함)
-    // 짝을 맞췄을때 상태값 변동, 틀렸을때 시간이 좀더 빨리 줄어들고 다시 엎어야함.
-    // 시간내에 다 클리어 했을때, 다음 라운드로 이동(이동 애니메이션 예정)
-    // 
+    let timeControl;
     
     const setCardInfo = () => {
         const randomImg = shuffle(imgs);
@@ -107,8 +99,9 @@
         min = Math.floor(timeVal / 60) < 10 ? '0' + Math.floor(timeVal / 60) : Math.floor(timeVal / 60);
         sec = Math.floor(timeVal % 60) < 10 ? '0' + Math.floor(timeVal % 60) : Math.floor(timeVal % 60);
         timeEle.innerHTML = `${min}:${sec}`;
-        const timeControl = setInterval(function(){
+        timeControl = setInterval(function(){
             timeVal--;
+            timeVal = timeVal < 0 ? 0 : timeVal;
             min = Math.floor(timeVal / 60) < 10 ? '0' + Math.floor(timeVal / 60) : Math.floor(timeVal / 60);
             sec = Math.floor(timeVal % 60) < 10 ? '0' + Math.floor(timeVal % 60) : Math.floor(timeVal % 60);
             timeEle.innerHTML = `${min}:${sec}`;
@@ -124,6 +117,8 @@
     const gameStart = () => {
         if(!isStart) {
             stage.innerHTML = '';
+            cardList = [];
+            timeEle.innerHTML = `00:00`;
             setCardInfo();
             cardList = shuffle(cardList);
             isAnimation = true;
@@ -150,7 +145,7 @@
                 new Promise(resolve => {
                     target.classList.add('open');
                     cardList[targetIdx].isOpen = true;
-                    cardOpenList.push(target);
+                    if(!cardList[targetIdx].isPairs) cardOpenList.push(target);
                     isReverse = true;
 
                     setTimeout(function(){
@@ -177,6 +172,20 @@
                         cardOpenList = [];
                     }
                     isReverse = false;
+
+                    // 다 뒤집으면 다음 라운드로
+                    if(document.querySelectorAll('.card.open').length === roundInfo[nowRound].length) {
+                        if(nowRound < roundInfo.length) {
+                            isStart = false;
+                            clearInterval(timeControl);
+                            setTimeout(function() {
+                                nowRound++;
+                                gameStart();
+                            }, 1000)
+                        } else {
+                            alert('게임 끝!')
+                        }
+                    }
                 })
             }
 
