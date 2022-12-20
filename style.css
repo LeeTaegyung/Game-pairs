@@ -27,6 +27,17 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     animation: shake 1s ease-out 2;
 }
 
+.count_down {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.4);
+    font-size: 120px;
+    color: red;
+    opacity: 0;
+    animation: countDownAni 1s ease-out alternate;
+}
+
 .stage {
     display: flex;
     flex-wrap: wrap;
@@ -88,4 +99,11 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     40% {transform: translate(0, 0) rotate(0)}
     60% {transform: translate(10px, -5px) rotate(5deg)}
     100% {transform: translate(0, 0) rotate(0)}
+}
+
+@keyframes countDownAni {
+    0% {transform: translate(-50%, -50%) scale(1.4); opacity: 0;}
+    20% {transform: translate(-50%, -50%) scale(1); opacity: 1;}
+    95% {transform: translate(-50%, -50%) scale(1); opacity: 1;}
+    100% {transform: translate(-50%, -50%) scale(0.9); opacity: 0;}
 }

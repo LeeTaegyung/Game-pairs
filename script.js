@@ -114,18 +114,44 @@
         }, 1000)
     }
 
+    const countDown = () => {
+        return new Promise(resolve => {
+            const wrap = document.getElementById('wrap');
+            let total = 5;
+            const cdInterval = setInterval(function(){
+                const cdEl = document.createElement('div');
+                cdEl.classList.add('count_down');
+                cdEl.innerHTML = total;
+                wrap.appendChild(cdEl);
+                total--;
+                setTimeout(function(){
+                    cdEl.remove();
+                }, 1000);
+
+                if(total == 0) {
+                    clearInterval(cdInterval);
+                    setTimeout(function(){
+                        resolve();
+                    }, 1500)
+                }
+            }, 1000)
+        })
+    }
+
     const gameStart = () => {
         if(!isStart) {
+            isStart = true;
             stage.innerHTML = '';
             cardList = [];
             timeEle.innerHTML = `00:00`;
-            setCardInfo();
-            cardList = shuffle(cardList);
-            isAnimation = true;
-            isStart = true;
-            setCard().then(() => {
-                isAnimation = false;
-                gameTime(roundInfo[nowRound].time);
+            countDown().then(() => {
+                setCardInfo();
+                cardList = shuffle(cardList);
+                isAnimation = true;
+                setCard().then(() => {
+                    isAnimation = false;
+                    gameTime(roundInfo[nowRound].time);
+                })
             })
         }
     }
