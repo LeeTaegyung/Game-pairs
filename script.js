@@ -175,15 +175,15 @@
 
                     // 다 뒤집으면 다음 라운드로
                     if(document.querySelectorAll('.card.open').length === roundInfo[nowRound].length) {
+                        isStart = false;
+                        clearInterval(timeControl);
+                        nowRound++;
                         if(nowRound < roundInfo.length) {
-                            isStart = false;
-                            clearInterval(timeControl);
                             setTimeout(function() {
-                                nowRound++;
                                 gameStart();
                             }, 1000)
                         } else {
-                            alert('게임 끝!')
+                            alert('게임 끝!');
                         }
                     }
                 })
