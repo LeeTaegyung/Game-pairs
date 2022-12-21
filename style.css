@@ -23,9 +23,6 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     margin-bottom: 20px;
     font-size: 20px;
 }
-.time.shake {
-    animation: shake 1s ease-out 2;
-}
 
 .count_down {
     position: absolute;
@@ -36,6 +33,47 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     color: red;
     opacity: 0;
     animation: countDownAni 1s ease-out alternate;
+}
+
+.clear {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg) scale(0.8);
+    opacity: 0;
+    font-size: 100px;
+    color: blue;
+    text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    animation: clearAni 1s ease-out alternate;
+    z-index: 1;
+}
+
+.fail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%) rotate(-10deg);
+    transform-origin: left bottom;
+    opacity: 0;
+    font-size: 100px;
+    color: red;
+    text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    animation: failAni 1s ease-out alternate;
+    z-index: 1;
+}
+
+.shake {
+    animation: shake 0.3s ease-out infinite;
+    z-index: 1;
+}
+
+.same {
+    animation: same 0.3s ease-out infinite;
+    z-index: 1;
 }
 
 .stage {
@@ -49,8 +87,10 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     padding: 10px;
 }
 .card {
+    position: relative;
     perspective: 1000px;
     cursor: pointer;
+    border-radius: 5px;
 }
 .card_inner {
     position: relative;
@@ -59,6 +99,7 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     transition: all .3s;
     transform-style: preserve-3d;
     animation: firstOpen 1.7s ease alternate;
+    border-radius: inherit;
 }
 .card.open .card_inner {
     transform: rotateY(-180deg);
@@ -77,6 +118,7 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     background: #222;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    border-radius: inherit;
 }
 .card .back {
     border: 1px solid #222;
@@ -84,6 +126,45 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     background-repeat: no-repeat;
     background-position: center center;
     transform: rotateY(180deg);
+}
+
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    perspective: 700px;
+    overflow: hidden;
+    z-index: -1;
+}
+.confetti {
+    position: absolute;
+    top: -10px;
+}
+.confetti.slow {
+    animation: confetti-slow 2.2s linear 1 forwards;
+}
+.confetti.medium {
+    animation: confetti-medium 1.75s linear 1 forwards;
+}
+.confetti.fast {
+    animation: confetti-fast 1.25s linear 1 forwards;
+}
+
+@keyframes confetti-slow {
+    0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+    100% { transform: translate3d(25px, 105vh, 0) rotateX(360deg) rotateY(180deg); }
+}
+
+@keyframes confetti-medium {
+    0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+    100% { transform: translate3d(100px, 105vh, 0) rotateX(100deg) rotateY(360deg); }
+}
+
+@keyframes confetti-fast {
+    0% { transform: translate3d(0, 0, 0) rotateX(0) rotateY(0); }
+    100% { transform: translate3d(-50px, 105vh, 0) rotateX(10deg) rotateY(250deg); }
 }
 
 @keyframes firstOpen {
@@ -94,11 +175,26 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
 }
 
 @keyframes shake {
-    0% {transform: translate(0, 0) rotate(0)}
-    20% {transform: translate(-10px, -5px) rotate(-5deg)}
-    40% {transform: translate(0, 0) rotate(0)}
-    60% {transform: translate(10px, -5px) rotate(5deg)}
-    100% {transform: translate(0, 0) rotate(0)}
+    0% {transform: rotate(0)}
+    10% {transform: rotate(-5deg)}
+    20% {transform: rotate(0)}
+    30% {transform: rotate(5deg)}
+    50% {transform: rotate(0)}
+    40% {transform: rotate(-5deg)}
+    60% {transform: rotate(0)}
+    70% {transform: rotate(5deg)}
+    80% {transform: rotate(0)}
+    90% {transform: rotate(-5deg)}
+    100% {transform: rotate(0)}
+}
+
+@keyframes same {
+    0% {transform: scale(0.9)}
+    20% {transform: scale(1.1)}
+    40% {transform: scale(0.9)}
+    60% {transform: scale(1.1)}
+    80% {transform: scale(0.9)}
+    100% {transform: scale(1)}
 }
 
 @keyframes countDownAni {
@@ -106,4 +202,21 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     20% {transform: translate(-50%, -50%) scale(1); opacity: 1;}
     95% {transform: translate(-50%, -50%) scale(1); opacity: 1;}
     100% {transform: translate(-50%, -50%) scale(0.9); opacity: 0;}
+}
+@keyframes clearAni {
+    0% {transform: translate(-50%, -50%) rotate(-15deg) scale(0.8); opacity: 0;}
+    20% {transform: translate(-50%, -50%) rotate(0) scale(1.2); opacity: 1;}
+    30% {transform: translate(-50%, -50%) rotate(0) scale(1); opacity: 1;}
+    95% {transform: translate(-50%, -50%) rotate(0) scale(1); opacity: 1;}
+    100% {transform: translate(-50%, -50%) rotate(15deg) scale(0.8); opacity: 0;}
+}
+@keyframes failAni {
+    0% {transform: translate(-50%, -100%) rotate(-10deg); opacity: 0;}
+    10% {transform: translate(-50%, -50%) scaleY(0.9) scaleX(1.1) rotate(-10deg); opacity: 1;}
+    20% {transform: translate(-50%, -55%) scaleX(1) rotate(-10deg); opacity: 1;}
+    20% {transform: translate(-50%, -50%) scaleY(0.9) scaleX(1.1) rotate(-5deg); opacity: 1;}
+    30% {transform: translate(-50%, -55%) scaleX(1) rotate(-5deg); opacity: 1;}
+    40% {transform: translate(-50%, -50%) rotate(0deg); opacity: 1;}
+    90% {transform: translate(-50%, -50%) rotate(0deg); opacity: 1;}
+    100% {transform: translate(-50%, 0%) rotate(10deg); opacity: 0;}
 }
