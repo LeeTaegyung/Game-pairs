@@ -19,9 +19,17 @@ html, body {height: 100%; font-family: 'Chivo Mono', monospace;}
     box-shadow: none;
     cursor: pointer;
 }
-.time {
+
+.util_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 500px;
     margin-bottom: 20px;
     font-size: 20px;
+}
+.util_row .round {
+    color: blue;
 }
 
 .count_down {

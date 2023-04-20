@@ -116,6 +116,7 @@
 
             if(timeVal <= 0) {
                 isStart = false;
+                nowRound = 0; // 라운드 초기화
                 clearInterval(timeControl);
                 result('fail');
             }
@@ -165,6 +166,7 @@
             stage.innerHTML = ''; // 스테이지 초기화
             cardList = []; // 카드 정보 초기화
             timeEle.innerHTML = `00:00`; // 시간 초기화
+            document.querySelector('.round').innerHTML = `${nowRound + 1}R`; // 라운드 표시
 
             countDown().then(() => {
                 setCardInfo();
@@ -287,6 +289,7 @@
                         } else { // 마지막 라운드면 게임 종료
                             confetti();
                             alert('게임 종료!');
+                            nowRound = 0; // 라운드 초기화
                         }
                     }
 
